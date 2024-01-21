@@ -9,7 +9,7 @@ $EndEpisode = 9001 # Script will stop if
 
 # This probably won't change.
 $EpisodeBase = "https://azpodcast.blob.core.windows.net/episodes/"
-$LocalPath = "./Output"
+$LocalPath = "./Output/"
 
 # Discover the latest episode using brute-force (attempt). Feeling bored? Make this faster by scaling guesses logarithmically until a miss.
 function Get-LastEpisode {
@@ -41,11 +41,12 @@ function Get-LastEpisode {
 function Download-Episode {
     param (
         [Parameter(Mandatory=$true)]
-        [string]$DownloadLocation,
-        [Parameter(Mandatory=$true)]
         [int]$EpisodeNumber
     )
-    
+    $DownloadUri = $EpisodeBase + "Episode" + "$EpisodeNumber" + ".mp3"
+    $Destination = $LocalPath + "Episode" + "$EpisodeNumber" + ".mp3"
+    Invoke-WebRequest -Uri $DownloadUri -OutFile $Destination
 }
 
-Get-LastEpisode
+#Get-LastEpisode
+Download-Episode -EpisodeNumber 100
