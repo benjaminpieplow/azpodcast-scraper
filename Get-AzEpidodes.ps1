@@ -4,7 +4,7 @@
 # More of a learning project...
 
 # Scrape Range
-$StartEpisode = 1
+$StartEpisode = 160
 $EndEpisode = 9001 # Script will stop if 
 
 # This probably won't change.
@@ -12,6 +12,7 @@ $EpisodeBase = "https://azpodcast.blob.core.windows.net/episodes/"
 $LocalPath = "./Output/"
 
 # Discover the latest episode using brute-force (attempt). Feeling bored? Make this faster by scaling guesses logarithmically until a miss.
+# Currently doesn't work, episode 31 is missing.
 function Get-LastEpisode {
     param ()
     # Set counter to first episode
@@ -48,5 +49,7 @@ function Download-Episode {
     Invoke-WebRequest -Uri $DownloadUri -OutFile $Destination
 }
 
-#Get-LastEpisode
-Download-Episode -EpisodeNumber 100
+$LastEpisode = 485
+for ($i = $StartEpisode; $i -lt $LastEpisode; $i++) {
+    Download-Episode -EpisodeNumber $i
+}
